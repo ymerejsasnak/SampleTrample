@@ -1,0 +1,84 @@
+//also add reset option for 'sticky' slider (ie like a pitch bend or something)
+
+
+fn create_slider($x, $y, $xsize, $ysize)
+{
+    $this = new()
+    
+    $this.x = $x
+    $this.y = $y
+    $this.xsize = $xsize
+    $this.ysize = $ysize
+    $this.sticky = 0
+    
+    $this.vert = 1
+    
+    $this.grab = 0
+    
+    $this.pos = .5
+    
+    if $xsize > $ysize
+    {
+        $this.vert = 0
+    }
+    
+    $this.draw = 
+    {
+        $this = $1
+        
+        
+        if $this.vert
+        {
+            $pos = scale($this.pos, 0, 1, $this.y + $this.ysize, $this.y)
+            
+            fbox($this.x + $this.xsize / 2 - 2, $this.y, 4, $this.ysize, BLACK)
+            box($this.x + $this.xsize / 2 - 2, $this.y, 4, $this.ysize, WHITE)
+            
+            fbox($this.x, $pos - 10 , $this.xsize, 20, BLACK)
+            box($this.x, $pos - 10 , $this.xsize, 20, WHITE)
+        }
+        
+    }
+    
+    $this.update =
+    {
+        $this = $1
+        $touch_state = $2
+        
+        
+        
+        if $touch_state.down
+        {
+            $pos = scale($this.pos, 0, 1, $this.y + $this.ysize, $this.y)
+            
+            if $touch_state.x > $this.x && $touch_state.x < $this.x + $this.xsize &&
+               $touch_state.y > $pos - 10 && $touch_state.y < $pos + 10
+            {
+                $this.grab = 1
+            }
+            
+        }       
+        
+        if $touch_state.up  
+        {
+            $this.grab = 0
+            if $this.sticky
+            {
+                $this.pos = .5
+            }
+        }
+        
+        
+        if $this.grab
+        {
+            
+            $this.pos = scale($touch_state.y, $this.y, $this.y + $this.ysize, 1, 0)
+            if $this.pos > 1 { $this.pos = 1 }
+            if $this.pos < 0 { $this.pos = 0 }
+        }
+            
+    }
+    
+    
+    ret ($this)
+}

@@ -1,0 +1,170 @@
+//todo:
+//add info to wave (length, sample rate, etc)
+//add 2 channel functionality
+
+// imp -record, then process/trample/undo!
+
+//save to same dir file from????
+
+
+
+include "util.pixi"
+
+include "audiocallback.pixi"
+include "sampleload.pixi"
+
+include "button.pixi"
+include "slider.pixi"
+include "wave_window.pixi"
+
+include "main_buttons.pixi"
+
+
+resize( get_screen(), WINDOW_XSIZE, WINDOW_YSIZE )
+scr = get_screen()
+xmin = -get_xsize(scr) / 2
+xmax = get_xsize(scr) / 2
+ymin = -get_ysize(scr) / 2
+ymax = get_ysize(scr) / 2
+
+BORDER = 5
+BORDERS = 10
+
+COLUMN1 = xmin
+COLUMN2 = xmin + WINDOW_XSIZE / 3
+COLUMN3 = xmin + WINDOW_XSIZE / 3 * 2
+
+BUTTON_WIDTH = WINDOW_XSIZE / 3 - BORDERS
+BUTTON_HEIGHT = WINDOW_YSIZE / 6 - BORDERS
+
+MAIN_BUTTON_COUNT = 9
+
+ROW1 = 0
+ROW2 = BUTTON_HEIGHT + BORDERS
+ROW3 = (BUTTON_HEIGHT + BORDERS) * 2
+
+
+
+
+
+main_buttons = create_main_buttons()
+load_wav()
+
+
+
+touch_state = new()
+touch_state.down = 0
+touch_state.up = 0
+touch_state.move = 0
+
+s=999
+while (1)
+{
+    while get_event()
+    {
+        touch_state.down = 0
+        touch_state.up = 0
+        touch_state.move = 0 
+               
+        if EVT[EVT_TYPE] == EVT_QUIT { halt }
+        
+        if EVT[EVT_TYPE] == EVT_MOUSEBUTTONUP
+            { touch_state.up = 1 }
+        
+  		if EVT[EVT_TYPE] == EVT_MOUSEMOVE 
+            { touch_state.move = 1 }
+        
+  		if EVT[EVT_TYPE] == EVT_MOUSEBUTTONDOWN 
+            { touch_state.down = 1 }
+  		
+  	  		
+  	    touch_state.x = EVT[ EVT_X ]
+  		touch_state.y = EVT[ EVT_Y ]
+  		
+        main_buttons.update(main_buttons, touch_state)
+        wave_window.update(wave_window, touch_state)
+        
+        
+    }
+
+    clear()
+    
+    wave_window.draw(wave_window)
+    main_buttons.draw(main_buttons)
+    
+    printnum(s, 0, 0)
+    
+    frame()
+
+}
+
+
+
+fn play_wav()
+{
+    $sample = wave_window.sample_info
+    $sample[SMP_LOOP] = 1
+	set_audio_callback(audio_callback, $sample, 44100, get_type( $sample[SMP_SRC] ), 1 ,AUDIO_FLAG_INTERP2 )
+}
+
+
+
+fn loop_wav()
+{
+    $sample = wave_window.sample_info
+    reset_pos($sample)
+    $sample[SMP_LOOP] = 0   
+	set_audio_callback(audio_callback, $sample, 44100, get_type( $sample[SMP_SRC] ), 1 ,AUDIO_FLAG_INTERP2 )
+}
+
+
+fn stop_wav()
+{
+    $sample = wave_window.sample_info
+    set_audio_callback(-1)
+    reset_pos($sample)
+}
+
+
+fn reset_pos($sample)
+{
+    $sample[ SMP_SRC_OFF_H ] = 0
+	$sample[ SMP_SRC_OFF_L ] = 0
+}
+
+
+fn load_wav()
+{
+    set_audio_callback(-1)
+    $file = file_dialog( "Select a wav file", "wav", "dirsave" )
+    if $file > -1
+    {
+        if wave_window
+        {
+            remove(wave_window)
+        }
+        wave_window = create_wave_window($file, xmin + BORDER, ymin + BORDER, WINDOW_XSIZE - BORDERS, WINDOW_YSIZE/2 - BORDERS)
+    }
+
+}
+
+
+fn save_wav()
+{
+    if wave_window
+    {
+        s = save(wave_window.data, dirsave  + "b.wav", FORMAT_WAVE)
+        
+    }
+}
+
+
+//run at exit
+fn cleanup()
+{
+    set_audio_callback(-1)
+    
+    //more stuff
+    
+    halt
+}

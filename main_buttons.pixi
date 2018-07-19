@@ -1,0 +1,58 @@
+
+
+fn create_main_buttons()
+{
+
+    $this = new(MAIN_BUTTON_COUNT)
+
+
+    $this[0] = create_button(COLUMN1 + BORDER, ROW1, BUTTON_WIDTH, BUTTON_HEIGHT, "LOOP", loop_wav)
+    $this[1] = create_button(COLUMN2 + BORDER, ROW1, BUTTON_WIDTH, BUTTON_HEIGHT, "STOP", stop_wav)
+    $this[2] = create_button(COLUMN3 + BORDER, ROW1, BUTTON_WIDTH, BUTTON_HEIGHT, "RECORD")
+
+
+    $this[3] = create_button(COLUMN1 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, "PROCESS") 
+    $this[4] = create_button(COLUMN2 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, "TRAMPLE")
+    $this[5] = create_button(COLUMN3 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, "UNDO")
+
+    $this[6] = create_button(COLUMN1 + BORDER, ROW3, BUTTON_WIDTH, BUTTON_HEIGHT, "LOAD", load_wav) 
+    $this[7] = create_button(COLUMN2 + BORDER, ROW3, BUTTON_WIDTH, BUTTON_HEIGHT, "SAVE", save_wav)
+    $this[8] = create_button(COLUMN3 + BORDER, ROW3, BUTTON_WIDTH, BUTTON_HEIGHT, "EXIT", cleanup)
+    
+
+
+    $this.update =
+    {
+        $this = $1
+        $touch_state = $2
+        
+        $i = 0
+        while ($i < MAIN_BUTTON_COUNT)
+        {
+            
+            $this[$i].update($this[$i], $touch_state)
+            $i + 1
+        }
+    }
+    
+    
+    
+    $this.draw = 
+    {
+        $this = $1
+        
+        $i = 0
+        while ($i < MAIN_BUTTON_COUNT)
+        {
+            $this[$i].draw($this[$i])
+            $i + 1
+        }
+    }
+    
+    
+    
+
+    ret($this)
+
+}
+

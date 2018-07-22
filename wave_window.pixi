@@ -1,9 +1,8 @@
-fn create_wave_window($file, $x, $y, $xsize, $ysize)
+fn create_wave_window($data, $x, $y, $xsize, $ysize)
 {
     $this = new()
     
-    $this.file = $file
-    $this.data = load($file)
+    $this.data = $data
     $this.x = $x
     $this.y = $y
     $this.xsize = $xsize

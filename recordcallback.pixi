@@ -1,0 +1,22 @@
+fn record_callback(
+    $stream, 
+    $userdata, 
+    $channels, 
+    $frames, 
+    $output_time_in_system_ticks, 
+    $in_channels, 
+    $latency_in_frames )
+{
+    //if $in_channels >= 0
+  //  {
+	//Copy input channels to the output:
+	//$ch = 0 while $ch < 2
+	//{
+	logf("%d\n", $in_channels[0])
+	copy( buf, $in_channels[0], ptr)
+	//    $ch + 1
+	///}
+	ptr+$frames
+	ret(1)
+}
+

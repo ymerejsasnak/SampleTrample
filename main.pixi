@@ -1,8 +1,12 @@
 //todo:
+// cleanup/refactor
+
 //add info to wave (length, sample rate, etc)
 //add 2 channel functionality
 
-// imp -record, then process/trample/undo!
+
+// implement diff windows/states
+// and process/trample/undo!
 
 //save to same dir file from????
 
@@ -12,6 +16,7 @@ include "util.pixi"
 
 include "audiocallback.pixi"
 include "sampleload.pixi"
+include "recordcallback.pixi"
 
 include "button.pixi"
 include "slider.pixi"
@@ -58,6 +63,14 @@ touch_state.up = 0
 touch_state.move = 0
 
 s=999
+
+
+
+ptr = 0
+recording = 0
+buf = new(44100 * 60 * 4, 1, INT16)
+clean(buf)
+
 while (1)
 {
     while get_event()
@@ -143,11 +156,39 @@ fn load_wav()
         {
             remove(wave_window)
         }
-        wave_window = create_wave_window($file, xmin + BORDER, ymin + BORDER, WINDOW_XSIZE - BORDERS, WINDOW_YSIZE/2 - BORDERS)
+        $wav = load($file)
+        wave_window = create_wave_window($wav, xmin + BORDER, ymin + BORDER, WINDOW_XSIZE - BORDERS, WINDOW_YSIZE/2 - BORDERS)
     }
 
 }
 
+
+fn rec_wav()
+{
+    
+    if recording == 0
+    {
+        recording = 1
+        set_audio_callback(-1)                              //temp
+        
+        set_audio_callback(record_callback, 0, 44100, INT16, 1 ,AUDIO_FLAG_INTERP2)
+        enable_audio_input(1)
+    }
+    else 
+    {
+        set_audio_callback(-1)
+        if wave_window
+        {
+            remove(wave_window)
+        }
+        $newwav = new(ptr, 1, INT16)
+        clean($newwav)
+        copy($newwav, buf, 0, 0, ptr)
+        ptr = 0
+        wave_window = create_wave_window($newwav, xmin + BORDER, ymin + BORDER, WINDOW_XSIZE - BORDERS, WINDOW_YSIZE/2 - BORDERS)
+        recording = 0
+    }
+}
 
 fn save_wav()
 {

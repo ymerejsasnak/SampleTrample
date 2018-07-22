@@ -8,7 +8,7 @@ fn create_main_buttons()
 
     $this[0] = create_button(COLUMN1 + BORDER, ROW1, BUTTON_WIDTH, BUTTON_HEIGHT, "LOOP", loop_wav)
     $this[1] = create_button(COLUMN2 + BORDER, ROW1, BUTTON_WIDTH, BUTTON_HEIGHT, "STOP", stop_wav)
-    $this[2] = create_button(COLUMN3 + BORDER, ROW1, BUTTON_WIDTH, BUTTON_HEIGHT, "RECORD")
+    $this[2] = create_button(COLUMN3 + BORDER, ROW1, BUTTON_WIDTH, BUTTON_HEIGHT, "RECORD", rec_wav)
 
 
     $this[3] = create_button(COLUMN1 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, "PROCESS") 

@@ -1,0 +1,63 @@
+fn play_wav()
+{
+    
+    $sample = wave_window.sample_info
+    $sample[SMP_LOOP] = 1
+	set_audio_callback(audio_callback, $sample, 44100, get_type( $sample[SMP_SRC] ), 1 ,AUDIO_FLAG_INTERP2 )
+}
+
+
+
+fn loop_wav()
+{
+    
+    $sample = wave_window.sample_info
+    reset_pos($sample)
+    $sample[SMP_LOOP] = 0   
+	set_audio_callback(audio_callback, $sample, 44100, get_type( $sample[SMP_SRC] ), 1 ,AUDIO_FLAG_INTERP2 )
+}
+
+
+fn stop_wav()
+{
+    
+    $sample = wave_window.sample_info
+    set_audio_callback(-1)
+    reset_pos($sample)
+}
+
+
+fn reset_pos($sample)
+{
+    $sample[ SMP_SRC_OFF_H ] = 0
+	$sample[ SMP_SRC_OFF_L ] = 0
+}
+
+
+fn rec_wav()
+{
+    
+    if app_state == MAIN
+    {
+        app_state = RECORDING
+        
+        set_audio_callback(-1)                              //temp
+        
+        set_audio_callback(record_callback, 0, 44100, INT16, 1 ,AUDIO_FLAG_INTERP2)
+        enable_audio_input(1)
+    }
+    else 
+    {
+        set_audio_callback(-1)
+        if wave_window
+        {
+            remove(wave_window)
+        }
+        $newwav = new(ptr, 1, INT16)
+        clean($newwav)
+        copy($newwav, buf, 0, 0, ptr)
+        ptr = 0
+        wave_window = create_wave_window($newwav, xmin + BORDER, ymin + BORDER, WINDOW_XSIZE - BORDERS, WINDOW_YSIZE/2 - BORDERS)
+        app_state = MAIN
+    }
+}

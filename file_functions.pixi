@@ -1,0 +1,28 @@
+fn load_wav()
+{
+
+    set_audio_callback(-1)
+    $file = file_dialog( "Select a wav file", "wav", "dirsave" )
+    if $file > -1
+    {
+        if wave_window
+        {
+            remove(wave_window)
+        }
+        $wav = load($file)
+        wave_window = create_wave_window($wav, xmin + BORDER, ymin + BORDER, WINDOW_XSIZE - BORDERS, WINDOW_YSIZE/2 - BORDERS)
+    }
+
+}
+
+
+
+
+fn save_wav()
+{
+    if wave_window
+    {
+        s = save(wave_window.data, dirsave  + "b.wav", FORMAT_WAVE)
+        
+    }
+}

@@ -1,0 +1,22 @@
+scr = get_screen()
+xmin = -get_xsize(scr) / 2
+xmax = get_xsize(scr) / 2
+ymin = -get_ysize(scr) / 2
+ymax = get_ysize(scr) / 2
+
+
+BORDER = 5
+BORDERS = 10
+
+COLUMN1 = xmin
+COLUMN2 = xmin + WINDOW_XSIZE / 3
+COLUMN3 = xmin + WINDOW_XSIZE / 3 * 2
+
+BUTTON_WIDTH = WINDOW_XSIZE / 3 - BORDERS
+BUTTON_HEIGHT = WINDOW_YSIZE / 6 - BORDERS
+
+MAIN_BUTTON_COUNT = 9
+
+ROW1 = 0
+ROW2 = BUTTON_HEIGHT + BORDERS
+ROW3 = (BUTTON_HEIGHT + BORDERS) * 2

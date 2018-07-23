@@ -12,7 +12,6 @@ fn record_callback(
 	//Copy input channels to the output:
 	//$ch = 0 while $ch < 2
 	//{
-	logf("%d\n", $in_channels[0])
 	copy( buf, $in_channels[0], ptr)
 	//    $ch + 1
 	///}

@@ -77,7 +77,13 @@ fn create_wave_window($data, $x, $y, $xsize, $ysize)
             $i + 1
         }
         
-        //box($this.x, $this.y, $this.xsize, $this.ysize, WHITE)
+        if app_state == RECORDING 
+            {box($this.x, $this.y, $this.xsize, $this.ysize, RED)}
+        if app_state == RECORDING && get_seconds() % 2 == 0
+            {box($this.x - 1, $this.y - 1, $this.xsize + 2, $this.ysize + 2, RED)}
+                
+        
+                
         line($this.x, $midline, $this.x + $this.xsize, $midline, WHITE)
         
         $pos = scale($this.sample_info[ SMP_SRC_OFF_H ], 0, get_size($this.data), $this.x, $this.x + $this.xsize)       

@@ -11,9 +11,13 @@ fn create_main_buttons()
     $this[2] = create_button(COLUMN3 + BORDER, ROW1, BUTTON_WIDTH, BUTTON_HEIGHT, "RECORD", rec_wav)
 
 
-    $this[3] = create_button(COLUMN1 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, "PROCESS") 
-    $this[4] = create_button(COLUMN2 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, "TRAMPLE")
-    $this[5] = create_button(COLUMN3 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, "UNDO")
+    $this[3] = create_button(COLUMN1 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, "PROCESS", 
+    {app_state = PROCESS_SELECT}) 
+    
+    $this[4] = create_button(COLUMN2 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, "TRAMPLE"
+    )
+    $this[5] = create_button(COLUMN3 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, "UNDO"
+    )
 
     $this[6] = create_button(COLUMN1 + BORDER, ROW3, BUTTON_WIDTH, BUTTON_HEIGHT, "LOAD", load_wav) 
     $this[7] = create_button(COLUMN2 + BORDER, ROW3, BUTTON_WIDTH, BUTTON_HEIGHT, "SAVE", save_wav)

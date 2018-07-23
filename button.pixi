@@ -1,6 +1,3 @@
-//add set colors, etc
-
-//one-click version of button (add this functionality to generic button object later)
 
 fn create_button($x, $y, $xsize, $ysize, $text, $func, $obj)
 {
@@ -44,11 +41,16 @@ fn create_button($x, $y, $xsize, $ysize, $text, $func, $obj)
         $this = $1
         $touch_state = $2
        
+              
+         
+                       
+                        
         // reset if already turned on
         if $this.on
         {
             $this.on = 0
         }
+             
         
         // send trigger func when clicked
         if $touch_state.down && $this.on == 0
@@ -61,18 +63,7 @@ fn create_button($x, $y, $xsize, $ysize, $text, $func, $obj)
             }
         }
         
-      /*  if $touch_state.up
-        {
-            if $this.is_toggle
-            {
-            
-            }
-            else
-            { 
-                $this.on = 0
-                $this.func($this.on, $this.obj)
-            }
-        }*/
+        
         
 	}   
     

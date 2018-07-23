@@ -3,7 +3,6 @@
 
 // cleanup/refactor
 
-//reimplement selection
 
 // disable other buttons when recording? (and/or any click stops recording)
 
@@ -37,7 +36,7 @@ include "wave_window.pixi"
 include "process_window.pixi"
 
 include "main_buttons.pixi"
-
+include "process_buttons.pixi"
 
 resize( get_screen(), WINDOW_XSIZE, WINDOW_YSIZE )
 
@@ -46,7 +45,7 @@ resize( get_screen(), WINDOW_XSIZE, WINDOW_YSIZE )
 
 main_buttons = create_main_buttons()
 process_window = create_process_window()
-
+process_buttons = create_process_buttons()
 
 load_wav()
 
@@ -62,7 +61,8 @@ touch_state.move = 0
 MAIN = 1
 RECORDING = 2
 PROCESS_SELECT = 3
-PROCESS_SETTINGS = 4
+TRAMPLE_SELECT = 4
+TRAMPLE_SETTINGS = 4
 
 app_state = MAIN
 
@@ -106,10 +106,14 @@ while (1)
             main_buttons.update(main_buttons, touch_state)
             wave_window.update(wave_window, touch_state)
         }
+        if app_state == PROCESS_SELECT
+        {
+            process_buttons.update(process_buttons, touch_state)
+        }
         
     }
 
-    clear()
+    clear(get_blend(BLACK, WHITE, 10))
     
     if app_state == MAIN || app_state == RECORDING
     {
@@ -120,7 +124,7 @@ while (1)
     if app_state == PROCESS_SELECT
     {
         process_window.draw(process_window)
-        
+        process_buttons.draw(process_buttons)
     }
     
     

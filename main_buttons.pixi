@@ -12,7 +12,8 @@ fn create_main_buttons()
 
 
     $this[3] = create_button(COLUMN1 + BORDER, ROW5, BUTTON_WIDTH, BUTTON_HEIGHT, "PROCESS", 
-    {app_state = PROCESS_SELECT}) 
+    {app_state = PROCESS_SELECT
+    set_audio_callback(-1)}) 
     
     $this[4] = create_button(COLUMN2 + BORDER, ROW5, BUTTON_WIDTH, BUTTON_HEIGHT, "TRAMPLE"
     )

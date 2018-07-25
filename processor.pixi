@@ -20,7 +20,7 @@ fn create_processor()
     {
         $this = $1
         
-        $sample = $this.process_func($this.value, clone(wave_window.data))
+        $sample = $this.process_func($this, $this.value, clone(wave_window.data))
         
         remove(wave_window)
         
@@ -38,26 +38,138 @@ fn create_processor()
 
     $this.normalize =
     {
-        $value = $1
-        $sample = $2
-        
-        
-        $sample = clone(wave_window.data)
+        $value = $2
+        $sample = $3        
         
         $max = op_cn(OP_MAXABS, $sample, 0)
         
         $factor = 32767 / $max * $value
         
-        op_cn(OP_MUL, $sample, $factor)
+        op_cn(OP_SMUL, $sample, $factor)
         
                 
         ret ($sample)
     }
     
     
+    $this.amplify =
+    {
+        $this = $1
+        $value = $2
+        $sample = $3
+        
+        $value = scale($value, 0, 1, $this.min, $this.max)
+        
+        op_cn(OP_SMUL, $sample, $value)
+        
+        ret ($sample)
+    }
     
     
+    $this.reverse =
+    {
+        $sample = $3
+        
+        op_cn(OP_H_FLIP, $sample)
+        
+        ret ($sample)
+    }
+    
+    
+    
+    $this.fade_in =
+    {
+        $value = $2
+        $sample = $3
+        
+        $fade_end = get_xsize($sample) * $value
+        
+        envelope2p($sample, 0, 32768, 0, $fade_end)
+    
+        ret($sample)
+    }
+    
+    $this.fade_out =
+    {
+        $value = $2
+        $sample = $3
+        
+        $fade_start = get_xsize($sample) * $value
+        
+        envelope2p($sample, 32768, 0, $fade_start, get_xsize($sample) - $fade_start)
+    
+        ret($sample)
+    }
+    
+    $this.fade_ends =
+    {
+        $value = $2
+        $sample = $3
+        
+        $fade_length = scale($value, 0, 1, 44.1, 4410)
+        
+        envelope2p($sample, 0, 32768, 0, $fade_length)
+        envelope2p($sample, 32768, 0, get_xsize($sample) - $fade_length, $fade_length)
+    
+        ret($sample)
+    }    
+    
+    
+    
+    $this.crossfade = //UNFINISHED
+    {
+        $value = $2
+        $sample = $3
+        
+        
+        //crossfade stuff
+        
+        ret($sample)
+    
+    }
+    
+    $this.limiter = //NOPE
+    {   
+        $this = $1
+        $value = $2
+        $sample = $3
+        
+        
+        ////MAYBE TRIM?  neg values = trim x ms from beginning, pos values = trim x ms from end?
+        
+        // not working out and somewhat pointless...what should go here?
+        
+        ret($sample)
+    }
 
+    $this.remove_silence = //UNFINISHED
+    {
+        $this = $1
+        $value = $2
+        $sample = $3
+        
+        
+        
+        
+        ret($sample)
+    }
+
+
+
+
+    $this.resample =
+    {
+        $this = $1
+        $value = $2
+        $sample = $3
+        
+        $value = scale($value, 0, 1, $this.min, $this.max)
+        
+        resize($sample, get_xsize($sample) / $value, -1, -1, RESIZE_INTERP2)
+        
+        ret ($sample)   
+    
+    }
 
     ret($this)
 }

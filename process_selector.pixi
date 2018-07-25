@@ -8,46 +8,55 @@ fn create_process_selector()
     
     //normalize -level 0-100%
     $this[0] = create_button(COLUMN1 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "NORMALIZE", {processor.setup(processor, processor.normalize, "level", 0, 100)})
+    "NORMALIZE", {processor.setup(processor, processor.normalize, "target level", 0, 100)})
         
     //amplify - amt 25 - 200%?
     $this[1] = create_button(COLUMN2 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "AMPLIFY")
+    "AMPLIFY", {processor.setup(processor, processor.amplify, "multiplier", .1, 10)})
     
-    //reverse
+    
+    
+    //NOPe
     $this[2] = create_button(COLUMN3 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "REVERSE")
+    "LIMITER", {processor.setup(processor, processor.limiter, "level", 0, 100)})
+    
+    
+    
+   
     
      
     //fade in - end (ie where it's at full vol) 0-100%
     $this[3] = create_button(COLUMN1 + BORDER, ROW3, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "FADE IN")
+    "FADE IN", {processor.setup(processor, processor.fade_in, "fade end poin", 0, 100)})
     
     //fade out - begin
     $this[4] = create_button(COLUMN2 + BORDER, ROW3, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "FADE OUT")
+    "FADE OUT", {processor.setup(processor, processor.fade_out, "fade begin point", 0, 100)})
     
     //fade ends - length in ms
     $this[5] = create_button(COLUMN3 + BORDER, ROW3, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "FADE ENDS")
+    "FADE ENDS", {processor.setup(processor, processor.fade_ends, "milliseconds", 1, 100)})
    
+   
+     //reverse
+    $this[6] = create_button(COLUMN1 + BORDER, ROW4, BUTTON_WIDTH, BUTTON_HEIGHT, 
+    "REVERSE", {processor.process_func = processor.reverse
+                processor.run(processor)})
    
     //make crossfade loop - %overlap 
-    $this[6] = create_button(COLUMN1 + BORDER, ROW4, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "CROSSFADE LOOP")
-    
-    //gate - silence below x level 
     $this[7] = create_button(COLUMN2 + BORDER, ROW4, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "GATE")
+    "CROSSFADE LOOP", {processor.setup(processor, processor.crossfade, "percent overlap", 0, 100)})
+    
     
     //remove silence - min time in ms?
     $this[8] = create_button(COLUMN3 + BORDER, ROW4, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "REMOVE SILENCE")
+    "REMOVE SILENCE", {processor.setup(processor, processor.remove_silence, "minimun length in ms", 1, 1000)})
+    
     
     
     // pitch/resample 
     $this[9] = create_button(COLUMN1 + BORDER, ROW5, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "RESAMPLE")
+    "RESAMPLE", {processor.setup(processor, processor.resample, "ratio", .5, 2)})
     
     // quick hp filt - freq
     $this[10] = create_button(COLUMN2 + BORDER, ROW5, BUTTON_WIDTH, BUTTON_HEIGHT, 

@@ -33,19 +33,25 @@ include "recordcallback.pixi"
 include "button.pixi"
 include "slider.pixi"
 include "wave_window.pixi"
-include "process_window.pixi"
+include "process_selector.pixi"
+include "process_settings.pixi"
 
 include "main_buttons.pixi"
-include "process_buttons.pixi"
+
+include "processor.pixi"
 
 resize( get_screen(), WINDOW_XSIZE, WINDOW_YSIZE )
 
 
 
 
+processor = create_processor()
+
 main_buttons = create_main_buttons()
-process_window = create_process_window()
-process_buttons = create_process_buttons()
+process_selector = create_process_selector()
+
+process_settings = create_process_settings()
+
 
 load_wav()
 
@@ -61,8 +67,9 @@ touch_state.move = 0
 MAIN = 1
 RECORDING = 2
 PROCESS_SELECT = 3
-TRAMPLE_SELECT = 4
-TRAMPLE_SETTINGS = 4
+PROCESS_SETTINGS = 4
+TRAMPLE_SELECT = 5
+TRAMPLE_SETTINGS = 6
 
 app_state = MAIN
 
@@ -101,6 +108,8 @@ while (1)
   	    touch_state.x = EVT[ EVT_X ]
   		touch_state.y = EVT[ EVT_Y ]
   		
+  		
+  		
   		if app_state == MAIN || app_state == RECORDING
   		{
             main_buttons.update(main_buttons, touch_state)
@@ -108,23 +117,35 @@ while (1)
         }
         if app_state == PROCESS_SELECT
         {
-            process_buttons.update(process_buttons, touch_state)
+            process_selector.update(process_selector, touch_state)
+        }
+        if app_state == PROCESS_SETTINGS
+        {
+            process_settings.update(process_settings, touch_state)
         }
         
     }
 
+    
+    
     clear(get_blend(BLACK, WHITE, 10))
     
     if app_state == MAIN || app_state == RECORDING
     {
+        
         wave_window.draw(wave_window)
         main_buttons.draw(main_buttons)
     }
     
     if app_state == PROCESS_SELECT
     {
-        process_window.draw(process_window)
-        process_buttons.draw(process_buttons)
+        
+        process_selector.draw(process_selector)
+    }
+    
+    if app_state == PROCESS_SETTINGS
+    {
+        process_settings.draw(process_settings)
     }
     
     

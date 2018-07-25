@@ -60,9 +60,10 @@ fn create_button($x, $y, $xsize, $ysize, $text, $func, $obj)
             {
                 $this.on = 1
                 $this.func($this.obj)
+                $touch_state.down = 0
             }
         }
-        
+      
         
         
 	}   

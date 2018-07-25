@@ -1,0 +1,54 @@
+fn create_process_settings()//$x, $y, $xsize, $ysize)
+{
+    $this = new()
+    
+    
+    
+     $this.slider = create_slider(COLUMN2, ROW2, BUTTON_WIDTH, ROW5-ROW1)
+     
+     
+     $this.run_button = create_button(COLUMN3, ROW6, BUTTON_WIDTH, BUTTON_HEIGHT, 
+     "RUN", processor.run, processor)
+    
+     $this.cancel_button = create_button(COLUMN1, ROW6, BUTTON_WIDTH, BUTTON_HEIGHT, 
+     "CANCEL", {app_state = MAIN})
+
+    
+    
+    $this.update = 
+    {
+        $this = $1
+        $touch_state = $2
+        
+        $this.slider.update($this.slider, $touch_state)
+        $this.run_button.update($this.run_button, $touch_state)    
+        $this.cancel_button.update($this.cancel_button, $touch_state)   
+        
+        //processor.value = scale($this.slider.pos, 0, 1, processor.min, processor.max)
+        processor.value = $this.slider.pos
+    }
+    
+    $this.draw =
+    {    
+        $this = $1
+                
+        
+        fbox(xmin, ymin, WINDOW_XSIZE, WINDOW_YSIZE, get_blend(BLACK, WHITE, 50))
+        
+        $this.slider.draw($this.slider)
+        $this.run_button.draw($this.run_button)    
+        $this.cancel_button.draw($this.cancel_button) 
+        
+        
+        print(processor.label, 0, ymin + BORDER)
+        printnum(scale($this.slider.pos, 0, 1, processor.min, processor.max), 0, ROW6)
+            
+        
+       
+        
+    }   
+    
+    
+    
+    ret ($this)
+}

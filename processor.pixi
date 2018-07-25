@@ -1,0 +1,64 @@
+fn create_processor()
+{
+    $this = new()
+    
+        
+    $this.setup = 
+    {
+        $this = $1
+        $this.process_func = $2
+        $this.label = $3
+        $this.min = $4
+        $this.max = $5
+        
+        app_state = PROCESS_SETTINGS
+        
+    }
+
+
+    $this.run =
+    {
+        $this = $1
+        
+        $sample = $this.process_func($this.value, clone(wave_window.data))
+        
+        remove(wave_window)
+        
+        wave_window = create_wave_window($sample, xmin + BORDER, ymin + BORDER, WINDOW_XSIZE - BORDERS, WINDOW_YSIZE/2 - BORDERS)
+        
+        app_state = MAIN
+    
+    }
+
+
+
+
+
+
+
+    $this.normalize =
+    {
+        $value = $1
+        $sample = $2
+        
+        
+        $sample = clone(wave_window.data)
+        
+        $max = op_cn(OP_MAXABS, $sample, 0)
+        
+        $factor = 32767 / $max * $value
+        
+        op_cn(OP_MUL, $sample, $factor)
+        
+                
+        ret ($sample)
+    }
+    
+    
+    
+    
+
+
+    ret($this)
+}
+

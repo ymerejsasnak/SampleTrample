@@ -1,21 +1,32 @@
 //todo:
 
 
-// cleanup/refactor
-
+// cleanup/refactor  -- especially magic numbers, and adding HEAVY comments (to help others)
+// testing and bug hunting, esp in 'processes'
+// better colors?  bigger text font?
 
 // disable other buttons when recording? (and/or any click stops recording)
 
 // drilling buffer type noise when recording??????
 
-//add info to wave (length, sample rate, etc)
-//add 2 channel functionality
+//add info to wave (length, sample rate, etc) -- and show ms/samps when mouse over? or playing?
 
-
-// implement diff windows/states
-// and process/trample/undo!
+//add 2 channel functionality, handling of various wav formats (16bit, 32bit, various sample rates, etc)
 
 //save to same dir file from????
+
+
+
+// implement:
+// hp and lp filter under 'process'
+// trample selector, settings, and finally trampler itself with all planned functions
+
+
+
+
+set_pixel_size(1)
+
+resize( get_screen(), WINDOW_XSIZE, WINDOW_YSIZE )
 
 
 
@@ -40,7 +51,6 @@ include "main_buttons.pixi"
 
 include "processor.pixi"
 
-resize( get_screen(), WINDOW_XSIZE, WINDOW_YSIZE )
 
 
 

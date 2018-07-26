@@ -14,17 +14,13 @@ fn create_process_selector()
     $this[1] = create_button(COLUMN2 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, 
     "AMPLIFY", {processor.setup(processor, processor.amplify, "multiplier", .1, 10)})
     
-    
-    
-    //NOPe
+     //reverse
     $this[2] = create_button(COLUMN3 + BORDER, ROW2, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "LIMITER", {processor.setup(processor, processor.limiter, "level", 0, 100)})
+    "REVERSE", {processor.process_func = processor.reverse
+                processor.run(processor)})
     
     
-    
-   
-    
-     
+        
     //fade in - end (ie where it's at full vol) 0-100%
     $this[3] = create_button(COLUMN1 + BORDER, ROW3, BUTTON_WIDTH, BUTTON_HEIGHT, 
     "FADE IN", {processor.setup(processor, processor.fade_in, "fade end poin", 0, 100)})
@@ -38,19 +34,21 @@ fn create_process_selector()
     "FADE ENDS", {processor.setup(processor, processor.fade_ends, "milliseconds", 1, 100)})
    
    
-     //reverse
-    $this[6] = create_button(COLUMN1 + BORDER, ROW4, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "REVERSE", {processor.process_func = processor.reverse
-                processor.run(processor)})
+    
    
     //make crossfade loop - %overlap 
-    $this[7] = create_button(COLUMN2 + BORDER, ROW4, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "CROSSFADE LOOP", {processor.setup(processor, processor.crossfade, "percent overlap", 0, 100)})
+    $this[6] = create_button(COLUMN1 + BORDER, ROW4, BUTTON_WIDTH, BUTTON_HEIGHT, 
+    "CROSSFADE LOOP", {processor.setup(processor, processor.crossfade, "percent overlap", 0, 50)})
     
     
     //remove silence - min time in ms?
+    $this[7] = create_button(COLUMN2 + BORDER, ROW4, BUTTON_WIDTH, BUTTON_HEIGHT, 
+    "TRIM SILENCE", {processor.process_func = processor.trim_silence
+                     processor.run(processor)})
+    
+    //trim end - neg is from left, pos is from right
     $this[8] = create_button(COLUMN3 + BORDER, ROW4, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "REMOVE SILENCE", {processor.setup(processor, processor.remove_silence, "minimun length in ms", 1, 1000)})
+    "CUT END", {processor.setup(processor, processor.cut_end, "ms to cut", -1000, 1000)})
     
     
     

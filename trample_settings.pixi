@@ -1,0 +1,74 @@
+fn create_trample_settings()//$x, $y, $xsize, $ysize)
+{
+    $this = new()
+    
+    
+    $this.slider = new(TRAMPLE_SLIDER_COUNT)
+    
+    $this.slider[0] = create_slider(SLIDER1, ROW2, SLIDER_WIDTH, ROW5-ROW1)
+    $this.slider[1] = create_slider(SLIDER2, ROW2, SLIDER_WIDTH, ROW5-ROW1)
+    $this.slider[2] = create_slider(SLIDER3, ROW2, SLIDER_WIDTH, ROW5-ROW1)
+    $this.slider[3] = create_slider(SLIDER4, ROW2, SLIDER_WIDTH, ROW5-ROW1)
+    $this.slider[4] = create_slider(SLIDER5, ROW2, SLIDER_WIDTH, ROW5-ROW1)
+    
+    $this.run_button = create_button(COLUMN3, ROW6, BUTTON_WIDTH, BUTTON_HEIGHT, 
+    "RUN", trampler.run, trampler)
+    
+    $this.cancel_button = create_button(COLUMN1, ROW6, BUTTON_WIDTH, BUTTON_HEIGHT, 
+    "CANCEL", {app_state = MAIN})
+
+    
+    
+    $this.update = 
+    {
+        $this = $1
+        $touch_state = $2
+        
+        $i = 0
+        while ($i < TRAMPLE_SLIDER_COUNT )
+        {
+            $this.slider[$i].update($this.slider[$i], $touch_state)
+            trampler.value[$i] = $this.slider[$i].pos
+            $i + 1
+        }
+        
+        $this.run_button.update($this.run_button, $touch_state)    
+        $this.cancel_button.update($this.cancel_button, $touch_state)   
+        
+        
+        
+        
+    }
+    
+    $this.draw =
+    {    
+        $this = $1
+                
+        
+        fbox(xmin, ymin, WINDOW_XSIZE, WINDOW_YSIZE, get_blend(BLACK, WHITE, 50))
+        
+        
+        $i = 0
+        while ($i < TRAMPLE_SLIDER_COUNT)
+        {
+            $this.slider[$i].draw($this.slider[$i])
+            print(trampler.label[$i], $i * SLIDER_WIDTH, ymin + BORDER)
+            printnum(scale($this.slider[$i].pos, 0, 1, trampler.min[$i], trampler.max[$i]), $i * SLIDER_WIDTH, ROW6)
+            $i + 1
+        }
+        
+        $this.run_button.draw($this.run_button)    
+        $this.cancel_button.draw($this.cancel_button) 
+        
+        
+        
+        
+       
+        
+    }   
+    
+    logf("tr settings created")
+    
+    
+    ret ($this)
+}

@@ -58,11 +58,11 @@ fn create_process_selector()
     
     // quick hp filt - freq
     $this[10] = create_button(COLUMN2 + BORDER, ROW5, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "HP FILTER")
+    "HP FILTER", {processor.setup(processor, processor.hp_filter, "cutoff", 40, 5000)})
     
     // quick lp filt - ""
     $this[11] = create_button(COLUMN3 + BORDER, ROW5, BUTTON_WIDTH, BUTTON_HEIGHT, 
-    "LP FILTER")
+    "LP FILTER", {processor.setup(processor, processor.lp_filter, "cutoff", 200, 10000)})
         
     
     // back

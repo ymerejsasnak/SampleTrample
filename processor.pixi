@@ -218,6 +218,58 @@ fn create_processor()
         ret ($sample)   
     
     }
+    
+    $this.hp_filter =
+    {
+        $this = $1
+        $value = $2
+        $sample = $3
+        
+        $value = scale($value, 0, 1, $this.min, $this.max)
+        
+        $filt = new_filter()
+        if $filt == -1
+        {	
+            logf( "new_filter() failed\n" )
+            halt
+        }
+        
+        set_filter_parameters( $filt, 1, 1, $value )    
+        
+        apply_filter( $filt, $sample, $sample )
+	
+        
+        remove_filter($filt)
+        
+        ret($sample)
+    }
+    
+    $this.lp_filter =
+    {
+        $this = $1
+        $value = $2
+        $sample = $3
+        
+        
+        $value = scale($value, 0, 1, $this.min, $this.max)
+        
+        $filt = new_filter()
+        if $filt == -1
+        {	
+            logf( "new_filter() failed\n" )
+            halt
+        }
+        
+        set_filter_parameters( $filt, 0, 1, $value )    
+        
+        apply_filter( $filt, $sample, $sample )
+	
+        
+        remove_filter($filt)
+        
+        ret($sample)
+        
+    }
 
     ret($this)
 }

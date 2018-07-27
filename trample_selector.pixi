@@ -1,0 +1,73 @@
+
+num = 2
+
+fn create_trample_selector()
+{
+
+    $this = new(num)
+
+
+
+    $this[1] = create_button(COLUMN3 + BORDER, ROW6, BUTTON_WIDTH, BUTTON_HEIGHT, 
+    "BACK", {app_state = MAIN})
+    
+    
+    
+    
+    l = new(TRAMPLE_SLIDER_COUNT)
+    l[0] = ""
+    l[1] = ""
+    l[2] = ""
+    l[3] = ""
+    l[4] = ""
+    m = new(TRAMPLE_SLIDER_COUNT)
+    m[0] = 0
+    m[1] = 1
+    m[2] = 2
+    m[3] = 3
+    m[4] = 4
+    n = new(TRAMPLE_SLIDER_COUNT)
+    n[0] = 11
+    n[1] = 22
+    n[2] = 33
+    n[3] = 55
+    n[4] = 5
+    
+    $this[0] = create_button(COLUMN2 + BORDER, ROW3, BUTTON_WIDTH, BUTTON_HEIGHT, 
+    "dummy", { trampler.setup(trampler, trampler.dummy, l, m, n) })
+    
+    
+    $this.update =
+    {
+        $this = $1
+        $touch_state = $2
+        
+        $i = 0
+        while ($i < num)
+        {
+            
+            $this[$i].update($this[$i], $touch_state)
+            $i + 1
+        }
+    }
+    
+    
+    
+    $this.draw = 
+    {
+        $this = $1
+        
+        fbox(xmin, ymin, WINDOW_XSIZE, WINDOW_YSIZE, get_blend(BLACK, WHITE, 220))
+               
+        fbox(xmin + 4, ymin + 4, WINDOW_XSIZE - 8, WINDOW_YSIZE - 8, get_blend(BLACK, WHITE, 10))
+        
+        $i = 0
+        while ($i < num)
+        {
+            $this[$i].draw($this[$i])
+            $i + 1
+        }
+    }
+    
+    ret ($this)
+}

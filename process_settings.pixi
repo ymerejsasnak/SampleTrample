@@ -4,7 +4,7 @@ fn create_process_settings()//$x, $y, $xsize, $ysize)
     
     
     
-     $this.slider = create_slider(COLUMN2, ROW2, BUTTON_WIDTH, ROW5-ROW1)
+     $this.slider = create_slider(SLIDER3, ROW2, SLIDER_WIDTH, ROW5-ROW1)
      
      
      $this.run_button = create_button(COLUMN3, ROW6, BUTTON_WIDTH, BUTTON_HEIGHT, 

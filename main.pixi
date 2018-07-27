@@ -18,7 +18,6 @@
 
 
 // implement:
-// hp and lp filter under 'process'
 // trample selector, settings, and finally trampler itself with all planned functions
 
 
@@ -44,24 +43,32 @@ include "recordcallback.pixi"
 include "button.pixi"
 include "slider.pixi"
 include "wave_window.pixi"
+
+include "trampler.pixi"
+include "processor.pixi"
+
 include "process_selector.pixi"
 include "process_settings.pixi"
+include "trample_selector.pixi"
+include "trample_settings.pixi"
 
 include "main_buttons.pixi"
 
-include "processor.pixi"
+
+include "filter.pixi"
 
 
 
 
 
 processor = create_processor()
+trampler = create_trampler()
 
 main_buttons = create_main_buttons()
 process_selector = create_process_selector()
-
+trample_selector = create_trample_selector()
 process_settings = create_process_settings()
-
+trample_settings = create_trample_settings()
 
 load_wav()
 
@@ -133,6 +140,14 @@ while (1)
         {
             process_settings.update(process_settings, touch_state)
         }
+        if app_state == TRAMPLE_SELECT
+        {
+            trample_selector.update(trample_selector, touch_state)
+        }
+        if app_state == TRAMPLE_SETTINGS
+        {
+            trample_settings.update(trample_settings, touch_state)
+        }
         
     }
 
@@ -158,6 +173,18 @@ while (1)
         process_settings.draw(process_settings)
     }
     
+    if app_state == TRAMPLE_SELECT
+    {
+        
+        trample_selector.draw(trample_selector)
+    }
+    
+    if app_state == TRAMPLE_SETTINGS
+    {
+        trample_settings.draw(trample_settings)
+    }
+    
+    logf("%d\n", app_state)
     
     frame()
 

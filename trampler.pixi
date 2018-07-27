@@ -1,0 +1,56 @@
+fn create_trampler()
+{
+    $this = new()
+    
+    $this.value = new(TRAMPLE_SLIDER_COUNT)
+    $this.label = new(TRAMPLE_SLIDER_COUNT)
+    $this.min = new(TRAMPLE_SLIDER_COUNT)
+    $this.max = new(TRAMPLE_SLIDER_COUNT)
+    
+    $this.setup = 
+    {
+        logf("in setup\n")
+        $this = $1
+        $this.trample_func = $2
+               
+        $this.label = $3
+        $this.min = $4
+        $this.max = $5
+        
+        app_state = TRAMPLE_SETTINGS
+        logf("end of setup\n")
+        
+    }
+
+
+    $this.run =
+    {
+        $this = $1
+        logf("in run\n")
+        $sample = $this.trample_func($this, $this.value, clone(wave_window.data))
+        
+        remove(wave_window)
+        
+        wave_window = create_wave_window($sample, xmin + BORDER, ymin + BORDER, WINDOW_XSIZE - BORDERS, WINDOW_YSIZE/2 - BORDERS)
+        
+        app_state = MAIN
+    
+    }
+
+
+
+
+    $this.dummy = 
+    {
+        $sample = $3
+        logf("in dummy\n")
+        ret($sample)
+        
+    }
+
+
+    logf("trampler created")
+
+    ret($this)
+}
+
